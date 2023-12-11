@@ -42,8 +42,11 @@ public class CustomerService {
         customerDAO.insertCustomer(customer);
     }
 
-    public void deleteCustomer(Integer id) {
-        customerDAO.deleteUserById(id);
+    public void deleteCustomerById(Integer customerId) {
+        if (!customerDAO.existsPersonWithId(customerId)) {
+            throw new ResourceNotFoundException("Customer with id [%s] not found".formatted(customerId));
+        }
+        customerDAO.deleteCustomerById(customerId);
     }
 
 

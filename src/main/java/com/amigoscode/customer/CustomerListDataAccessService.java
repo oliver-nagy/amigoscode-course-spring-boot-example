@@ -40,7 +40,13 @@ public class CustomerListDataAccessService implements CustomerDAO{
     }
 
     @Override
-    public void deleteUserById(Integer id) {
+    public boolean existsPersonWithId(Integer id) {
+        return customers.stream()
+                .anyMatch(c -> c.getId().equals(id));
+    }
+
+    @Override
+    public void deleteCustomerById(Integer id) {
         Customer customerToRemove = customers.stream()
                 .filter(customer -> customer.getId().equals(id))
                 .findFirst()
