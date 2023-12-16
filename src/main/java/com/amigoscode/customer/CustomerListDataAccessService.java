@@ -46,6 +46,18 @@ public class CustomerListDataAccessService implements CustomerDAO{
     }
 
     @Override
+    public void updateCustomer(Customer customer) {
+        Customer customerToUpdate = customers.stream()
+                .filter(c -> c.getId().equals(customer.getId()))
+                .findFirst().orElseThrow(() -> new ResourceNotFoundException(
+                        "Customer with id [%s] not found".formatted(customer.getId())
+                ));
+
+        customers.set(customers.indexOf(customerToUpdate), customer);
+
+    }
+
+    @Override
     public void deleteCustomerById(Integer id) {
         Customer customerToRemove = customers.stream()
                 .filter(customer -> customer.getId().equals(id))
@@ -55,5 +67,6 @@ public class CustomerListDataAccessService implements CustomerDAO{
                 ));
 
         customers.remove(customerToRemove);
+
     }
 }
