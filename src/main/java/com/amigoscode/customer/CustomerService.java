@@ -61,6 +61,8 @@ public class CustomerService {
 
         Customer customer = findCustomerById(customerId);
 
+        boolean changes = false;
+
         if (newName != null) {
             if (!customer.getName().equals(newName)) {
                 customer.setName(newName);
