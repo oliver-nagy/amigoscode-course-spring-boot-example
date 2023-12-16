@@ -68,7 +68,7 @@ public class CustomerService {
             changes = true;
         }
 
-        if (newAge != null && customer.getAge() == (newAge)) {
+        if (newAge != null && customer.getAge() != (newAge)) {
             customer.setAge(newAge);
             changes = true;
         }
