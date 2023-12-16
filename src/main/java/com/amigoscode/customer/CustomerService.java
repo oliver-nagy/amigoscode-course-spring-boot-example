@@ -59,33 +59,32 @@ public class CustomerService {
         String newEmail = customerUpdateRequest.email();
         Integer newAge = customerUpdateRequest.age();
 
-        Customer customerToUpdate = customerDAO.selectCustomerById(customerId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Customer with id [%s] not found".formatted(customerId)));
+        Customer customer = findCustomerById(customerId);
 
         if (newName != null) {
-            if (!customerToUpdate.getName().equals(newName)) {
-                customerToUpdate.setName(newName);
+            if (!customer.getName().equals(newName)) {
+                customer.setName(newName);
             } else {
                 throw new ResourceNotChangedException("No data change");
             }
         }
 
         if (newEmail != null) {
-            if (!customerToUpdate.getEmail().equals(newEmail)) {
-                customerToUpdate.setEmail(newEmail);
+            if (!customer.getEmail().equals(newEmail)) {
+                customer.setEmail(newEmail);
             } else {
                 throw new ResourceNotChangedException("No data change");
             }
         }
 
         if (newAge == null) {
-            if (customerToUpdate.getAge() == (newAge)) {
-                customerToUpdate.setAge(newAge);
+            if (customer.getAge() == (newAge)) {
+                customer.setAge(newAge);
             } else {
                 throw new ResourceNotChangedException("No data change");
             }
         }
 
-        customerDAO.updateCustomer(customerToUpdate);
+        customerDAO.updateCustomer(customer);
     }
 }
