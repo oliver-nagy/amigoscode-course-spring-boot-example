@@ -1,7 +1,7 @@
 package com.amigoscode.customer;
 
 import com.amigoscode.exception.DuplicateResourceException;
-import com.amigoscode.exception.ResourceNotChangedException;
+import com.amigoscode.exception.RequestValidationException;
 import com.amigoscode.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -63,28 +63,26 @@ public class CustomerService {
 
         boolean changes = false;
 
-        if (newName != null) {
-            if (!customer.getName().equals(newName)) {
-                customer.setName(newName);
-            } else {
-                throw new ResourceNotChangedException("No data change");
-            }
+        if (newName != null && !customer.getName().equals(newName)) {
+            customer.setName(newName);
+            changes = true;
         }
 
-        if (newEmail != null) {
-            if (!customer.getEmail().equals(newEmail)) {
-                customer.setEmail(newEmail);
-            } else {
-                throw new ResourceNotChangedException("No data change");
-            }
+        if (newAge != null && customer.getAge() == (newAge)) {
+            customer.setAge(newAge);
+            changes = true;
         }
 
-        if (newAge == null) {
-            if (customer.getAge() == (newAge)) {
-                customer.setAge(newAge);
-            } else {
-                throw new ResourceNotChangedException("No data change");
+        if (newEmail != null && !customer.getEmail().equals(newEmail)) {
+            if (customerDAO.existsPersonWithEmail(newEmail)) {
+                throw new DuplicateResourceException("Email already taken");
             }
+            customer.setEmail(newEmail);
+            changes = true;
+        }
+
+        if (!changes) {
+            throw new RequestValidationException("No data changes found.");
         }
 
         customerDAO.updateCustomer(customer);
