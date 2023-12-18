@@ -26,7 +26,7 @@ public class Main {
             Random random = new Random();
 
             Customer customer = new Customer(
-                    faker.name().fullName(),
+                    name.fullName(),
                     name.firstName().toLowerCase() + "." + name.lastName().toLowerCase() + "@example.com",
                     random.nextInt(16, 99)
             );
