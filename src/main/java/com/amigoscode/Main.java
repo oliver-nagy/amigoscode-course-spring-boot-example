@@ -22,11 +22,12 @@ public class Main {
     CommandLineRunner runner(CustomerRepository customerRepository) {
         return args -> {
             Faker faker = new Faker();
+            var name = faker.name();
             Random random = new Random();
 
             Customer customer = new Customer(
                     faker.name().fullName(),
-                    faker.internet().emailAddress(),
+                    name.firstName().toLowerCase() + "." + name.lastName().toLowerCase() + "@example.com",
                     random.nextInt(16, 99)
             );
 
