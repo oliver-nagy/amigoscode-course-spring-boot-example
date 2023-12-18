@@ -3,6 +3,7 @@ package com.amigoscode;
 import com.amigoscode.customer.Customer;
 import com.amigoscode.customer.CustomerRepository;
 import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,12 +23,15 @@ public class Main {
     CommandLineRunner runner(CustomerRepository customerRepository) {
         return args -> {
             Faker faker = new Faker();
-            var name = faker.name();
+            Name name = faker.name();
+            String firstName = name.firstName();
+            String lastName = name.lastName();
+
             Random random = new Random();
 
             Customer customer = new Customer(
-                    name.fullName(),
-                    name.firstName().toLowerCase() + "." + name.lastName().toLowerCase() + "@example.com",
+                    firstName + " " + lastName,
+                    firstName.toLowerCase() + "." + lastName.toLowerCase() + "@example.com",
                     random.nextInt(16, 99)
             );
 
