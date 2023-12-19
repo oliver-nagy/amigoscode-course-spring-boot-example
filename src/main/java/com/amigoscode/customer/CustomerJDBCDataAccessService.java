@@ -23,20 +23,14 @@ public class CustomerJDBCDataAccessService implements CustomerDAO{
                 FROM customer
                 """;
 
-        RowMapper<Customer> customerRowMapper = (rs, rowNum) -> {
-            Customer customer = new Customer(
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            return new Customer(
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getString("email"),
                     rs.getInt("age")
             );
-
-            return customer;
-        };
-
-        List<Customer> customers = jdbcTemplate.query(sql, customerRowMapper);
-
-        return customers;
+        });
     }
 
     @Override
